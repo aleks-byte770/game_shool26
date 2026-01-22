@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#2196F3">
+    <meta name="description" content="Интерактивная игра по финансовой грамотности для школ Казахстана">
+    
+    <title>Финансовый Геймер - Школа Казахстана</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/svg+xml" href="assets/icon.svg">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+    <link rel="stylesheet" href="src/styles/main.css">
+</head>
+<body>
+    <div id="app"></div>
+    
+    <script>
+        // Регистрация Service Worker для PWA функционала
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('src/service-worker.js')
+                .then(reg => console.log('✅ Service Worker зарегистрирован'))
+                .catch(err => console.log('❌ Service Worker ошибка:', err));
+        }
+    </script>
+    
+    <script src="src/app.js"></script>
+</body>
+</html>

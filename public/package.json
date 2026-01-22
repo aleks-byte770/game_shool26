@@ -1,0 +1,14 @@
+{
+  "name": "financial-game-kz",
+  "version": "1.0.0",
+  "description": "Интерактивная игра по финансовой грамотности для школ Казахстана",
+  "type": "module",
+  "scripts": {
+    "dev": "python -m http.server 8000",
+    "build": "",
+    "test": "echo 'Tests will be added'"
+  },
+  "keywords": ["education", "finance", "game", "kazakhstan", "pwa"],
+  "author": "",
+  "license": "MIT"
+}

@@ -80,8 +80,13 @@ class FinanceGame {
   }
 
   startLevel(levelNum) {
-    alert(`Уровень ${levelNum} - скоро будет готов! 🚀`);
-    console.log(`Запуск уровня ${levelNum}`);
+    // Вызываем движок уровня, реализованный в src/game/game.js
+    if (window.GameEngine && typeof window.GameEngine.startLevel === 'function') {
+      window.GameEngine.startLevel(levelNum, this);
+    } else {
+      alert(`Уровень ${levelNum} - скоро будет готов! 🚀`);
+      console.log(`Запуск уровня ${levelNum}`);
+    }
   }
 
   showProgress() {

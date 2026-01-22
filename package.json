@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "python -m http.server 8000",
-    "build": "echo 'Build process will be added'",
+    "build": "",
     "test": "echo 'Tests will be added'"
   },
   "keywords": ["education", "finance", "game", "kazakhstan", "pwa"],

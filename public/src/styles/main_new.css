@@ -1,0 +1,681 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Современная профессиональная палитра */
+  --primary: #6366f1;        /* Индиго - основной цвет */
+  --primary-light: #818cf8;
+  --primary-dark: #4f46e5;
+  --success: #10b981;        /* Зелёный - правильный ответ */
+  --success-dark: #059669;
+  --warning: #f59e0b;        /* Оранжевый - предупреждение */
+  --danger: #ef4444;         /* Красный - ошибка */
+  
+  --bg-light: #ffffff;
+  --bg-secondary: #f9fafb;
+  --bg-dark: #111827;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --text-light: #9ca3af;
+  --border-color: #e5e7eb;
+  --border-light: #f3f4f6;
+  
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #f9fafb 0%, #eff6ff 100%);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  width: 100%;
+}
+
+/* =============== КНОПКИ =============== */
+button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: var(--transition);
+  box-shadow: var(--shadow-md);
+  display: inline-block;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+button:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.back-btn {
+  background: var(--text-light);
+  color: white;
+  margin-bottom: 20px;
+  width: fit-content;
+}
+
+.back-btn:hover {
+  background: var(--text-secondary);
+}
+
+/* =============== МЕНЮ =============== */
+.menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+  padding: 40px 20px;
+  gap: 30px;
+  background: linear-gradient(135deg, #f9fafb 0%, #eff6ff 100%);
+}
+
+.menu h1 {
+  font-size: 48px;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 15px;
+  animation: fadeInDown 0.6s ease;
+}
+
+.menu p {
+  font-size: 18px;
+  color: var(--text-secondary);
+  max-width: 500px;
+  animation: fadeInUp 0.6s ease;
+}
+
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: fadeInUp 0.8s ease;
+}
+
+.menu button {
+  width: 260px;
+  padding: 16px 32px;
+  font-size: 16px;
+  border-radius: 12px;
+}
+
+/* =============== ВЫБОР КЛАССА =============== */
+.grade-selection {
+  padding: 40px 20px;
+}
+
+.grade-selection h2 {
+  font-size: 36px;
+  margin-bottom: 10px;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.grade-selection > p {
+  text-align: center;
+  color: var(--text-secondary);
+  margin-bottom: 40px;
+  font-size: 16px;
+}
+
+.grades-grid {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.grades-grid h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 30px 0 20px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.9;
+}
+
+.grades-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.grade-btn {
+  padding: 14px 20px;
+  background: var(--bg-light);
+  color: var(--primary);
+  border: 2px solid var(--primary);
+  border-radius: 8px;
+  font-weight: 600;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.grade-btn:hover {
+  background: var(--primary);
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* =============== УРОВНИ =============== */
+.levels {
+  padding: 40px 20px;
+}
+
+.levels h2 {
+  text-align: center;
+  font-size: 36px;
+  margin-bottom: 10px;
+  color: var(--text-primary);
+}
+
+.levels > p {
+  text-align: center;
+  color: var(--text-secondary);
+  margin-bottom: 40px;
+}
+
+.levels-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+  margin: 30px 0;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.level-card {
+  background: var(--bg-light);
+  padding: 30px 25px;
+  border-radius: 12px;
+  cursor: pointer;
+  border: 2px solid var(--border-color);
+  transition: var(--transition);
+  box-shadow: var(--shadow-md);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.level-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--primary-light));
+  transition: left 0.3s ease;
+}
+
+.level-card:hover::before {
+  left: 100%;
+}
+
+.level-card:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-xl);
+  transform: translateY(-8px);
+}
+
+.level-card h3 {
+  margin-bottom: 12px;
+  color: var(--primary);
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.level-card p {
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.level-card small {
+  display: block;
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.progress {
+  background: var(--bg-secondary);
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* =============== ВОПРОСЫ И ТЕСТЫ =============== */
+.level-screen {
+  padding: 30px 20px;
+}
+
+.question-card {
+  background: var(--bg-light);
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  margin: 25px 0;
+  border-left: 4px solid var(--primary);
+}
+
+.question-card h3 {
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+}
+
+.q-text {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
+.choices {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.choice-btn {
+  width: 100%;
+  padding: 16px 20px;
+  text-align: left;
+  background: var(--bg-light);
+  color: var(--text-primary);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--transition);
+  font-weight: 500;
+  font-size: 16px;
+  position: relative;
+}
+
+.choice-btn:hover {
+  border-color: var(--primary);
+  background: var(--bg-secondary);
+  transform: translateX(6px);
+}
+
+.choice-btn:active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+/* =============== РЕЗУЛЬТАТЫ =============== */
+.result-card,
+.results-card {
+  background: var(--bg-light);
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+  max-width: 600px;
+  margin: 40px auto;
+}
+
+.result-card h2 {
+  font-size: 32px;
+  margin-bottom: 15px;
+  color: var(--text-primary);
+}
+
+.explanation {
+  background: var(--bg-secondary);
+  padding: 15px 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+  color: var(--text-secondary);
+  border-left: 4px solid var(--primary);
+}
+
+.result-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 20px;
+  margin: 30px 0;
+}
+
+.stat {
+  background: var(--bg-secondary);
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.stat h3 {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 5px;
+}
+
+.stat p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+/* =============== ПРОГРЕСС =============== */
+.progress-page h2 {
+  text-align: center;
+  font-size: 36px;
+  margin-bottom: 40px;
+  color: var(--text-primary);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 20px;
+  margin: 30px 0;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.stat-card {
+  background: var(--bg-light);
+  padding: 25px 20px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+  border-top: 3px solid var(--primary);
+  transition: var(--transition);
+}
+
+.stat-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+}
+
+.stat-card h4 {
+  color: var(--text-secondary);
+  font-size: 12px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+.stat-card p {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+/* =============== О ПРИЛОЖЕНИИ =============== */
+.about-content {
+  background: var(--bg-light);
+  padding: 40px 30px;
+  border-radius: 12px;
+  max-width: 700px;
+  margin: 30px auto;
+  box-shadow: var(--shadow-lg);
+}
+
+.about-content h3 {
+  font-size: 18px;
+  margin: 25px 0 15px 0;
+  color: var(--primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.about-content ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.about-content li {
+  padding: 10px 0;
+  font-size: 16px;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.about-content li:last-child {
+  border-bottom: none;
+}
+
+/* =============== ВХОД УЧИТЕЛЯ =============== */
+.teacher-login,
+.teacher-register {
+  padding: 40px 20px;
+}
+
+.teacher-login h2,
+.teacher-register h2 {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 40px;
+  color: var(--text-primary);
+}
+
+.login-form {
+  background: var(--bg-light);
+  padding: 40px 30px;
+  border-radius: 12px;
+  max-width: 400px;
+  margin: 0 auto;
+  box-shadow: var(--shadow-lg);
+}
+
+.login-form input {
+  width: 100%;
+  padding: 12px 16px;
+  margin-bottom: 15px;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 16px;
+  font-family: inherit;
+  transition: var(--transition);
+  color: var(--text-primary);
+}
+
+.login-form input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.login-form button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 14px 20px;
+}
+
+.login-form p {
+  text-align: center;
+  margin-top: 20px;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.login-form a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.login-form a:hover {
+  text-decoration: underline;
+}
+
+/* =============== АНИМАЦИИ =============== */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =============== АДАПТИВНОСТЬ =============== */
+@media (max-width: 768px) {
+  :root {
+    font-size: 14px;
+  }
+  
+  .container {
+    padding: 20px 15px;
+  }
+  
+  button {
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+  
+  .menu h1 {
+    font-size: 36px;
+  }
+  
+  .menu p {
+    font-size: 16px;
+  }
+  
+  .menu button {
+    width: 100%;
+    max-width: 260px;
+  }
+  
+  .levels-grid,
+  .grades-row,
+  .result-stats,
+  .stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .question-card {
+    padding: 25px 20px;
+  }
+  
+  .q-text {
+    font-size: 18px;
+  }
+  
+  .result-card,
+  .results-card {
+    padding: 25px 20px;
+  }
+  
+  .about-content,
+  .login-form {
+    padding: 25px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .menu h1 {
+    font-size: 28px;
+  }
+  
+  .menu p {
+    font-size: 14px;
+  }
+  
+  .level-card {
+    padding: 20px 15px;
+  }
+  
+  .level-card h3 {
+    font-size: 18px;
+  }
+  
+  .stat-card p {
+    font-size: 24px;
+  }
+}
+
+/* =============== ПЕЧАТЬ =============== */
+@media print {
+  body {
+    background: white;
+  }
+  
+  button,
+  .back-btn {
+    display: none;
+  }
+}

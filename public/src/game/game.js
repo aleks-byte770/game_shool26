@@ -1,13 +1,12 @@
 (function(){
   window.GameEngine = {
-    startLevel(levelNum, hostGame) {
-      const level = window.Levels && window.Levels[levelNum];
+    startLevel(level, hostGame) {
       if (!level) {
         alert('Уровень не найден.');
         return;
       }
 
-      hostGame.currentScreen = `level-${levelNum}`;
+      hostGame.currentScreen = `level-${level.id || 'unknown'}`;
 
       const container = hostGame.app;
       let currentIndex = 0;
@@ -38,7 +37,7 @@
         });
 
         container.querySelector('.back-btn').addEventListener('click', () => {
-          hostGame.showLevels();
+          hostGame.showGradeSelection();
         });
       }
 
@@ -47,70 +46,74 @@
         const correct = selectedIdx === q.correctIndex;
         if (correct) correctCount++;
 
-        // Показать краткое объяснение и кнопку Далее
+        const resultEmoji = correct ? '✅' : '❌';
+        const resultText = correct ? 'Правильно!' : 'Неправильно!';
+        const explanationText = q.explanation;
+
         container.innerHTML = `
           <div class="level-screen container">
-            <button class="back-btn">← Назад</button>
-            <h2>${level.title}</h2>
-            <div class="question-feedback">
-              <p class="q-text">${q.text}</p>
-              <p><strong>Ваш ответ:</strong> ${q.choices[selectedIdx]}</p>
-              <p><strong>${correct ? 'Правильно ✅' : 'Неправильно ❌'}</strong></p>
-              <p class="explain">${q.explanation}</p>
-              <button class="next-btn">Далее</button>
+            <div class="result-card">
+              <h2>${resultEmoji} ${resultText}</h2>
+              <p class="explanation">${explanationText}</p>
+              <button onclick="window.GameEngine.continueLevel()">Далее →</button>
             </div>
           </div>
         `;
-
-        container.querySelector('.back-btn').addEventListener('click', () => {
-          hostGame.showLevels();
-        });
-
-        container.querySelector('.next-btn').addEventListener('click', () => {
-          currentIndex++;
-          if (currentIndex < level.questions.length) {
-            renderQuestion();
-          } else {
-            finishLevel();
-          }
-        });
       }
 
-      function finishLevel() {
-        const reward = level.reward || { coinsPerCorrect: 1, pointsPerCorrect: 10 };
-        const pointsEarned = correctCount * reward.pointsPerCorrect;
-        const coinsEarned = correctCount * reward.coinsPerCorrect;
-
-        // Обновляем данные игрока
-        hostGame.playerData.score = (hostGame.playerData.score || 0) + pointsEarned;
-        hostGame.playerData.coins = (hostGame.playerData.coins || 0) + coinsEarned;
-        hostGame.playerData.lastPlayed = new Date().toISOString();
-        // Если игрок прошёл этот уровень впервые — повысим уровень
-        if ((hostGame.playerData.level || 1) <= levelNum) {
-          hostGame.playerData.level = levelNum + 1;
+      window.GameEngine.continueLevel = function() {
+        currentIndex++;
+        if (currentIndex < level.questions.length) {
+          renderQuestion();
+        } else {
+          showResults();
         }
+      };
 
+      function showResults() {
+        const percentage = Math.round((correctCount / level.questions.length) * 100);
+        const coinsEarned = correctCount * (level.reward?.coinsPerCorrect || 10);
+        const pointsEarned = correctCount * (level.reward?.pointsPerCorrect || 10);
+        
+        hostGame.playerData.coins += coinsEarned;
+        hostGame.playerData.score += pointsEarned;
         hostGame.savePlayerData();
 
+        // Попытка сохранить результат на сервер (если доступно)
+        if (window.api && window.api.isAuthenticated()) {
+          window.api.saveTestResult({
+            levelId: level.id || 1,
+            grade: hostGame.currentGrade,
+            correctAnswers: correctCount,
+            totalQuestions: level.questions.length,
+            coinsEarned: coinsEarned
+          }).catch(err => console.log('Не удалось сохранить на сервер:', err));
+        }
+
         container.innerHTML = `
-          <div class="level-complete container">
-            <h2>Уровень пройден</h2>
-            <p>Правильных ответов: ${correctCount} из ${level.questions.length}</p>
-            <p>Получено очков: ${pointsEarned} | Монет: ${coinsEarned}</p>
-            <button class="menu-btn">В меню</button>
-            <button class="replay-btn">Пройти снова</button>
-            <button class="levels-btn">Выбрать уровень</button>
+          <div class="level-screen container">
+            <div class="results-card">
+              <h2>🎉 Тест завершен!</h2>
+              <div class="result-stats">
+                <div class="stat">
+                  <h3>${correctCount}/${level.questions.length}</h3>
+                  <p>Правильных ответов</p>
+                </div>
+                <div class="stat">
+                  <h3>${percentage}%</h3>
+                  <p>Успешность</p>
+                </div>
+                <div class="stat">
+                  <h3>+${coinsEarned} 💰</h3>
+                  <p>Монеты</p>
+                </div>
+              </div>
+              <button onclick="window.game.showLevels(${hostGame.currentGrade})">Вернуться к уровням</button>
+            </div>
           </div>
         `;
-
-        container.querySelector('.menu-btn').addEventListener('click', () => hostGame.showMenu());
-        container.querySelector('.replay-btn').addEventListener('click', () => {
-          currentIndex = 0; correctCount = 0; renderQuestion();
-        });
-        container.querySelector('.levels-btn').addEventListener('click', () => hostGame.showLevels());
       }
 
-      // Начинаем
       renderQuestion();
     }
   };

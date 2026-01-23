@@ -31,68 +31,167 @@ class FinanceGame {
     this.app.innerHTML = `
       <div class="menu">
         <h1>💰 Финансовый Геймер</h1>
-        <p>Игра по финансовой грамотности для школ Казахстана</p>
+        <p>Игра по финансовой грамотности для школ</p>
         
-        <button onclick="game.showLevels()">🎮 Начать игру</button>
-        <button onclick="game.showProgress()">📊 Мой прогресс</button>
-        <button onclick="game.showAbout()">ℹ️ О приложении</button>
+        <div class="menu-buttons">
+          <button onclick="game.showGradeSelection()">🎮 Начать игру</button>
+          <button onclick="game.showProgress()">📊 Мой прогресс</button>
+          <button onclick="game.showAbout()">ℹ️ О приложении</button>
+          <button onclick="game.showTeacherLogin()">👨‍🏫 Вход для учителей</button>
+        </div>
       </div>
     `;
-    
-    this.styleMenu();
   }
 
-  showLevels() {
+  showGradeSelection() {
     this.app.innerHTML = `
-      <div class="levels">
+      <div class="grade-selection container">
         <button onclick="game.showMenu()" class="back-btn">← Назад</button>
-        <h2>Выберите уровень</h2>
+        <h2>Выберите класс</h2>
+        <p>Уровень сложности подбирается в зависимости от вашего класса</p>
         
-        <div class="levels-grid">
-          <div class="level-card" onclick="game.startLevel(1)">
-            <h3>Уровень 1</h3>
-            <p>🏦 Основы банковского дела</p>
-            <span class="progress">0/10</span>
+        <div class="grades-grid">
+          <h3>Начальная школа (1-4 классы)</h3>
+          <div class="grades-row">
+            <button onclick="game.showLevels(1)" class="grade-btn">1 класс</button>
+            <button onclick="game.showLevels(2)" class="grade-btn">2 класс</button>
+            <button onclick="game.showLevels(3)" class="grade-btn">3 класс</button>
+            <button onclick="game.showLevels(4)" class="grade-btn">4 класс</button>
           </div>
           
-          <div class="level-card" onclick="game.startLevel(2)">
-            <h3>Уровень 2</h3>
-            <p>💳 Кредиты и займы</p>
-            <span class="progress">0/10</span>
+          <h3>Средняя школа (5-8 классы)</h3>
+          <div class="grades-row">
+            <button onclick="game.showLevels(5)" class="grade-btn">5 класс</button>
+            <button onclick="game.showLevels(6)" class="grade-btn">6 класс</button>
+            <button onclick="game.showLevels(7)" class="grade-btn">7 класс</button>
+            <button onclick="game.showLevels(8)" class="grade-btn">8 класс</button>
           </div>
           
-          <div class="level-card" onclick="game.startLevel(3)">
-            <h3>Уровень 3</h3>
-            <p>📈 Инвестиции и портфель</p>
-            <span class="progress">0/10</span>
-          </div>
-          
-          <div class="level-card" onclick="game.startLevel(4)">
-            <h3>Уровень 4</h3>
-            <p>🛒 Бюджет и расходы</p>
-            <span class="progress">0/10</span>
+          <h3>Старшая школа (9-11 классы)</h3>
+          <div class="grades-row">
+            <button onclick="game.showLevels(9)" class="grade-btn">9 класс</button>
+            <button onclick="game.showLevels(10)" class="grade-btn">10 класс</button>
+            <button onclick="game.showLevels(11)" class="grade-btn">11 класс</button>
           </div>
         </div>
       </div>
     `;
+  }
+
+  showLevels(grade) {
+    this.currentGrade = grade;
+    const classLevels = window.LevelsByClass && window.LevelsByClass[grade];
     
-    this.styleLevels();
+    if (!classLevels) {
+      alert('Уровни для этого класса еще не готовы.');
+      return;
+    }
+
+    let levelCards = '';
+    for (let levelId in classLevels) {
+      const level = classLevels[levelId];
+      levelCards += `
+        <div class="level-card" onclick="game.startLevel(${levelId})">
+          <h3>Тема ${levelId}</h3>
+          <p>${level.title}</p>
+          <small>${level.description}</small>
+          <span class="progress">0/${level.questions.length}</span>
+        </div>
+      `;
+    }
+
+    this.app.innerHTML = `
+      <div class="levels container">
+        <button onclick="game.showGradeSelection()" class="back-btn">← Назад</button>
+        <h2>Класс ${grade} - Выберите тему</h2>
+        
+        <div class="levels-grid">
+          ${levelCards}
+        </div>
+      </div>
+    `;
   }
 
   startLevel(levelNum) {
-    // Вызываем движок уровня, реализованный в src/game/game.js
-    if (window.GameEngine && typeof window.GameEngine.startLevel === 'function') {
-      window.GameEngine.startLevel(levelNum, this);
-    } else {
-      alert(`Уровень ${levelNum} - скоро будет готов! 🚀`);
-      console.log(`Запуск уровня ${levelNum}`);
+    // Получаем уровень из структуры по классам
+    const classLevels = window.LevelsByClass && window.LevelsByClass[this.currentGrade];
+    const level = classLevels && classLevels[levelNum];
+    
+    if (!level) {
+      alert('Уровень не найден.');
+      return;
     }
+
+    if (window.GameEngine && typeof window.GameEngine.startLevel === 'function') {
+      window.GameEngine.startLevel(level, this);
+    } else {
+      alert(`Уровень "${level.title}" - скоро будет готов! 🚀`);
+      console.log(`Запуск уровня`, level);
+    }
+  }
+
+  showTeacherLogin() {
+    this.app.innerHTML = `
+      <div class="teacher-login container">
+        <button onclick="game.showMenu()" class="back-btn">← Назад</button>
+        <h2>👨‍🏫 Вход для учителей</h2>
+        
+        <form class="login-form" onsubmit="event.preventDefault(); game.handleTeacherLogin();">
+          <input type="email" id="teacherEmail" placeholder="Email" required>
+          <input type="password" id="teacherPassword" placeholder="Пароль" required>
+          <button type="submit">Войти</button>
+          <p>У вас нет аккаунта? <a href="#" onclick="game.showTeacherRegister(); return false;">Зарегистрироваться</a></p>
+        </form>
+      </div>
+    `;
+  }
+
+  handleTeacherLogin() {
+    const email = document.getElementById('teacherEmail').value;
+    const password = document.getElementById('teacherPassword').value;
+    
+    // TODO: Отправить на сервер для проверки
+    console.log('Попытка входа учителя:', email);
+    alert('Функция входа будет реализована после настройки Backend.');
+  }
+
+  showTeacherRegister() {
+    this.app.innerHTML = `
+      <div class="teacher-register container">
+        <button onclick="game.showTeacherLogin()" class="back-btn">← Назад</button>
+        <h2>👨‍🏫 Регистрация учителя</h2>
+        
+        <form class="login-form" onsubmit="event.preventDefault(); game.handleTeacherRegister();">
+          <input type="text" id="teacherName" placeholder="Имя и фамилия" required>
+          <input type="email" id="teacherEmail" placeholder="Email" required>
+          <input type="password" id="teacherPassword" placeholder="Пароль" required>
+          <input type="password" id="teacherPasswordConfirm" placeholder="Подтвердите пароль" required>
+          <input type="text" id="teacherSchool" placeholder="Школа" required>
+          <button type="submit">Зарегистрироваться</button>
+        </form>
+      </div>
+    `;
+  }
+
+  handleTeacherRegister() {
+    const name = document.getElementById('teacherName').value;
+    const email = document.getElementById('teacherEmail').value;
+    const password = document.getElementById('teacherPassword').value;
+    const passwordConfirm = document.getElementById('teacherPasswordConfirm').value;
+    
+    if (password !== passwordConfirm) {
+      alert('Пароли не совпадают!');
+      return;
+    }
+    
+    console.log('Регистрация учителя:', { name, email });
+    alert('Регистрация будет реализована после настройки Backend.');
   }
 
   showProgress() {
     const { name, score, level, coins } = this.playerData;
     this.app.innerHTML = `
-      <div class="progress">
+      <div class="progress-page container">
         <button onclick="game.showMenu()" class="back-btn">← Назад</button>
         <h2>📊 Мой прогресс</h2>
         
@@ -125,7 +224,7 @@ class FinanceGame {
         <h2>ℹ️ О приложении</h2>
         
         <div class="about-content">
-          <p><strong>Финансовый Геймер</strong> - интерактивная обучающая игра для развития финансовой грамотности учащихся школ Казахстана.</p>
+          <p><strong>Финансовый Геймер</strong> - интерактивная обучающая игра для развития финансовой грамотности учащихся школ.</p>
           
           <h3>Возможности:</h3>
           <ul>
@@ -133,82 +232,16 @@ class FinanceGame {
             <li>✅ Установка на рабочий стол и смартфон</li>
             <li>✅ Отслеживание прогресса</li>
             <li>✅ Достижения и награды</li>
+            <li>✅ 4 уровня обучения</li>
           </ul>
           
           <h3>Версия:</h3>
-          <p>v1.0.0</p>
+          <p>v1.1.5</p>
         </div>
       </div>
     `;
   }
-
-  styleMenu() {
-    const style = document.createElement('style');
-    style.textContent = `
-      .menu {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        min-height: 100vh;
-        text-align: center;
-        padding: 20px;
-      }
-      .menu h1 {
-        font-size: 48px;
-        margin-bottom: 10px;
-      }
-      .menu p {
-        font-size: 18px;
-        margin-bottom: 40px;
-        color: #666;
-      }
-      .menu button {
-        width: 200px;
-        margin: 10px 0;
-        padding: 15px;
-        font-size: 18px;
-      }
-    `;
-    document.head.appendChild(style);
-  }
-
-  styleLevels() {
-    const style = document.createElement('style');
-    style.textContent = `
-      .levels {
-        padding: 20px;
-      }
-      .back-btn {
-        margin-bottom: 20px;
-        background: #666;
-      }
-      .levels-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
-        margin-top: 20px;
-      }
-      .level-card {
-        background: white;
-        padding: 20px;
-        border-radius: 12px;
-        cursor: pointer;
-        border: 2px solid var(--border);
-        transition: all 0.3s;
-      }
-      .level-card:hover {
-        border-color: var(--primary);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        transform: translateY(-4px);
-      }
-      .level-card h3 {
-        margin-bottom: 10px;
-      }
-    `;
-    document.head.appendChild(style);
-  }
 }
 
 // Инициализация приложения
-const game = new FinanceGame();
+window.game = new FinanceGame();

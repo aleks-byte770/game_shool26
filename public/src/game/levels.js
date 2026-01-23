@@ -1,72 +1,14 @@
-window.Levels = {
-  1: {
-    title: 'Основы банковского дела',
-    description: 'Короткая викторина по основным понятиям: банк, вклад, процент, комиссия, платежная карта.',
-    questions: [
-      {
-        id: 'q1',
-        text: 'Что такое вклад в банке?',
-        choices: [
-          'Долгосрочный кредит, который вы отдаёте банку',
-          'Деньги, которые вы храните в банке и которые могут приносить проценты',
-          'Комиссия за обслуживание счёта',
-          'Банковская карта'
-        ],
-        correctIndex: 1,
-        explanation: 'Вклад — это размещение своих денег в банке под проценты.'
-      },
-      {
-        id: 'q2',
-        text: 'Что такое процент по вкладу?',
-        choices: [
-          'Часть тела банка',
-          'Плата, которую банк взимает с вас за обслуживание',
-          'Часть прибыли, которую банк выплачивает держателю вклада',
-          'Фиксированная комиссия за перевод'
-        ],
-        correctIndex: 2,
-        explanation: 'Процент — это вознаграждение за размещение денег у банка.'
-      },
-      {
-        id: 'q3',
-        text: 'Что такое дебетовая карта?',
-        choices: [
-          'Карта, с которой вы тратите только те деньги, что есть на счёте',
-          'Карта, которая автоматически даёт вам кредит',
-          'Бумажный сертификат в банке',
-          'Вид вклада'
-        ],
-        correctIndex: 0,
-        explanation: 'Дебетовая карта использует средства с вашего счёта.'
-      },
-      {
-        id: 'q4',
-        text: 'Что такое кредит?',
-        choices: [
-          'Процент от вклада',
-          'Деньги, которые банк выдаёт во временное пользование под возврат и проценты',
-          'Сервировочная плата банка',
-          'Тип банковского счёта'
-        ],
-        correctIndex: 1,
-        explanation: 'Кредит — это займ, который нужно вернуть с процентами.'
-      },
-      {
-        id: 'q5',
-        text: 'Что такое комиссия банка?',
-        choices: [
-          'Вид вклада',
-          'Платёж, который вы платите банку за услугу',
-          'Досрочное погашение кредита',
-          'Скидка на услуги'
-        ],
-        correctIndex: 1,
-        explanation: 'Комиссия — это плата за банковскую услугу.'
-      }
-    ],
-    reward: {
-      coinsPerCorrect: 1,
-      pointsPerCorrect: 10
-    }
-  }
+// Структура: classes[class_number][level_id]
+window.LevelsByClass = {
+  1: { 1: { title: 'Деньги', grade: 1, description: 'Учимся', questions: [{ id: 'q1', text: 'Деньги?', choices: ['Игры', 'Товары', 'Долг', 'Воздух'], correctIndex: 1, explanation: 'Покупки' }], reward: { coinsPerCorrect: 10, pointsPerCorrect: 10 } } },
+  2: { 1: { title: 'Бюджет', grade: 2, description: 'Управление', questions: [{ id: 'q1', text: 'Бюджет?', choices: ['Долг', 'План', 'Налог', 'Кредит'], correctIndex: 1, explanation: 'План' }], reward: { coinsPerCorrect: 10, pointsPerCorrect: 10 } } },
+  3: { 1: { title: 'Доходы', grade: 3, description: 'Источники', questions: [{ id: 'q1', text: 'Деньги от?', choices: ['Воздух', 'Работа', 'Вода', 'Земля'], correctIndex: 1, explanation: 'Работа' }], reward: { coinsPerCorrect: 10, pointsPerCorrect: 10 } } },
+  4: { 1: { title: 'Сбережения', grade: 4, description: 'Копим', questions: [{ id: 'q1', text: 'Копить?', choices: ['Воздух', 'Банк', 'Лес', 'Вода'], correctIndex: 1, explanation: 'Банк' }], reward: { coinsPerCorrect: 10, pointsPerCorrect: 10 } } },
+  5: { 1: { title: 'Товары', grade: 5, description: 'Вещи', questions: [{ id: 'q1', text: 'Товар?', choices: ['Помощь', 'Вещь', 'Совет', 'Лечение'], correctIndex: 1, explanation: 'Вещь' }], reward: { coinsPerCorrect: 10, pointsPerCorrect: 10 } } },
+  6: { 1: { title: 'Цена', grade: 6, description: 'Стоимость', questions: [{ id: 'q1', text: 'Цена?', choices: ['Цвета', 'Спроса', 'Погоды', 'Времени'], correctIndex: 1, explanation: 'Спрос' }], reward: { coinsPerCorrect: 10, pointsPerCorrect: 10 } } },
+  7: { 1: { title: 'Кредит', grade: 7, description: 'Займы', questions: [{ id: 'q1', text: 'Кредит?', choices: ['Скидка', 'Займ', 'Подарок', 'Находка'], correctIndex: 1, explanation: 'Займ' }], reward: { coinsPerCorrect: 10, pointsPerCorrect: 10 } } },
+  8: { 1: { title: 'Налоги', grade: 8, description: 'Платежи', questions: [{ id: 'q1', text: 'Налог?', choices: ['Скидка', 'Платеж', 'Кредит', 'Сбор'], correctIndex: 1, explanation: 'Платеж' }], reward: { coinsPerCorrect: 10, pointsPerCorrect: 10 } } },
+  9: { 1: { title: 'Инвестиции', grade: 9, description: 'Вложения', questions: [{ id: 'q1', text: 'Инвестиция?', choices: ['Трата', 'Вложение', 'Долг', 'Подарок'], correctIndex: 1, explanation: 'Вложение' }], reward: { coinsPerCorrect: 10, pointsPerCorrect: 10 } } },
+  10: { 1: { title: 'Планирование', grade: 10, description: 'План', questions: [{ id: 'q1', text: 'План?', choices: ['Ничего', 'План', 'Мечта', 'Налог'], correctIndex: 1, explanation: 'План' }], reward: { coinsPerCorrect: 10, pointsPerCorrect: 10 } } },
+  11: { 1: { title: 'Независимость', grade: 11, description: 'Свобода', questions: [{ id: 'q1', text: 'Независимость?', choices: ['Долг', 'Свой доход', 'Кредит', 'Налог'], correctIndex: 1, explanation: 'Свой' }], reward: { coinsPerCorrect: 10, pointsPerCorrect: 10 } } }
 };

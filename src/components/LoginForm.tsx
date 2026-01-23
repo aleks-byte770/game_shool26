@@ -22,11 +22,12 @@ export const LoginForm: FC = () => {
     try {
       const response =
         userType === 'student'
-          ? await api.studentLogin(email, password)
-          : await api.teacherLogin(email, password)
+          ? await (api as any).studentLogin(email, password)
+          : await (api as any).teacherLogin(email, password)
 
-      setUser(response.user)
-      setToken(response.token)
+      const { user, token } = (response as any).data
+      setUser(user)
+      setToken(token)
 
       navigate(userType === 'student' ? '/student' : '/teacher')
     } catch (err: any) {

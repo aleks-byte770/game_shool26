@@ -44,8 +44,9 @@ export const RegisterForm: FC = () => {
         ? await (api as any).studentRegister(formData.name, formData.email, formData.password)
         : await (api as any).teacherRegister(formData.name, formData.email, formData.password)
 
-      setUser(response.user)
-      setToken(response.token)
+      const { user, token } = (response as any).data
+      setUser(user)
+      setToken(token)
 
       navigate(userType === 'student' ? '/student' : '/teacher')
     } catch (err: any) {

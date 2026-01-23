@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { Student, Teacher } from '@types/index'
+import type { Student, Teacher } from '../types/index'
 
 interface AuthState {
   user: (Student | Teacher | null)

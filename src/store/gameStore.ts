@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { Level } from '@types/index'
+import type { Level } from '../types/index'
 
 interface GameState {
   levels: Level[]

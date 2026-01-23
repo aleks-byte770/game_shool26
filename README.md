@@ -1,0 +1,66 @@
+# Финансовый Геймер - React Version
+
+Интерактивная игра по финансовой грамотности для школ, написанная на React + Vite.
+
+## Возможности
+
+- 📚 11 классов с уровнями финансовой грамотности
+- 🎮 Интерактивные тесты и вопросы
+- 👨‍🎓 Панель для учителей с аналитикой
+- 📊 Отслеживание результатов учеников
+- 🔐 Система авторизации (JWT)
+- 📱 Адаптивный дизайн
+- 🚀 Оптимизировано для Vercel
+
+## Структура проекта
+
+```
+src/
+├── components/     # React компоненты
+├── pages/          # Страницы приложения
+├── hooks/          # Custom хуки
+├── store/          # Zustand stores
+├── api/            # API клиент и endpoints
+├── types/          # TypeScript типы
+└── styles/         # CSS стили
+```
+
+## Установка и запуск
+
+```bash
+npm install
+npm run dev        # Запуск dev сервера
+npm run build      # Сборка для production
+npm run preview    # Предпросмотр production сборки
+```
+
+## Vercel deployment
+
+```bash
+# Убедитесь что код залит на GitHub
+git push origin main
+
+# На сайте vercel.com подключите репозиторий
+# Vercel автоматически развернёт приложение
+```
+
+## Переменные окружения
+
+Скопируйте `.env.example` в `.env.local`:
+
+```
+VITE_API_URL=http://localhost:5000/api
+```
+
+## Технологии
+
+- React 18
+- TypeScript
+- Vite
+- Zustand (state management)
+- Axios (HTTP client)
+- React Router (маршрутизация)
+
+## Лицензия
+
+MIT
